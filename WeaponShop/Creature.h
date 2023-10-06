@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <vector>
+#include "Attack.h"
 using namespace std;
 
 
@@ -10,16 +12,17 @@ private:
 	string mDescription;
 	int mHP;
 	int mDefense;
-	//vector<Attack> mAttacks;
+	vector<Attack> mAttacks;
 
 public:
-	Creature(string name, string description, int hp, int defense/*, vector<Attack> attacks*/);
+	Creature(string name, string description, int hp, int defense, vector<Attack> attacks);
 	Creature();
 	~Creature();
 
-	void Attack(Creature creature);
+	void AttackCreature(Creature creature);
 	void Heal(int hp);
 	int GetHP();
+	int GetDefense();
 
 };
 
