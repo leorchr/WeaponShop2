@@ -1,19 +1,25 @@
 #include "Creature.h"
+#include <iostream>
+#include <cstdlib>
 
-Creature::Creature(string name, string description, int hp, int defense, vector<Attack> attacks) {
-	mName = name;
+Creature::Creature(string firstName, string lastName, string description, int pv, vector<Attack> attacks) {
+	mFirstName = firstName;
+	mLastName = lastName;
 	mDescription = description;
-	mHP = hp;
-	mDefense = defense;
+	mPV = pv;
+	srand((unsigned)time(NULL));
+	mDefense = rand() % 20 + 1;
 	mAttacks = attacks;
 }
 
 
 Creature::Creature() {
-	mName = "Default";
+	mFirstName = "Default";
+	mLastName = "Default";
 	mDescription = "No description";
-	mHP = 100;
-	mDefense = 0;
+	mPV = 100;
+	srand((unsigned)time(NULL));
+	mDefense = rand() % 20 + 1;
 	mAttacks = vector<Attack>{ Attack() };
 }
 
@@ -22,9 +28,19 @@ Creature::~Creature() {}
 
 void Creature::AttackCreature(Creature creature) {}
 
-void Creature::Heal(int hp){}
+void Creature::Heal(int pv){}
 
-int Creature::GetHP() { return mHP; }
+string Creature::GetFirstName() { return mFirstName; }
+
+string Creature::GetLastName() { return mLastName; }
+
+string Creature::GetFullName() { return GetFirstName() + " " + GetLastName(); }
+
+string Creature::GetDescription() { return mDescription; }
+
+int Creature::GetPV() { return mPV; }
+
+void Creature::SetPV(int pv) {	mPV = pv; }
 
 int Creature::GetDefense() { return mDefense; }
 

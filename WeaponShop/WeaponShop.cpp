@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Weapon.h"
+#include "Attack.h"
 #include "Character.h"
 #include "Merchant.h"
 #include <vector>
@@ -10,12 +10,16 @@ using namespace std;
 Character mainCharacter;
 Character enemy;
 Weapon sword = Weapon("Sword", "Je suis une epee", WeaponType::Sword, 20, 10, 1, 1);
-Weapon weakSword = Weapon("Epee nulle","Je suis une epee", WeaponType::Sword, 20, 5, 1, 1);
+Weapon weakBow = Weapon("Arc nul","Je suis un arc", WeaponType::Bow, 20, 5, 1, 1);
 
 Weapon bow = Weapon("Bow", "Je suis un arc", WeaponType::Bow, 20, 10, 50, 1);
 Weapon dagger = Weapon("Dagger", "Je suis une dague", WeaponType::Dagger, 20, 10, 120, 1);
 Weapon gun = Weapon("Gun", "Je suis un pistolet", WeaponType::Gun, 20, 10, 12000, 1);
 Merchant merchant = Merchant("Marchand", "Boutique", "Viens perdre ton argent !", "Welcome to my fiesta", 0, vector<Weapon>{ bow, dagger, gun});
+
+Attack brulure = Attack("Brulure", sword, 20, DamageType::Burning);
+Attack tir = Attack("Tir", weakBow, 20, DamageType::Piercing);
+
 
 int inputHandler();
 void PlayerConfiguration();
@@ -93,8 +97,8 @@ void BuyChoice() {
 
 void Fight() {
 	cout << "C'est l'heure du dududud udududd dueeeel ! \n";
-	enemy = Character("Philipep", "Ito", "Je suis le mechant", 100, 100, vector<Weapon> {weakSword}, Race::Elf, Job::Archer);
 
+	enemy = Character("Philipep", "Ito", "Je suis le mechant", 100, vector<Attack> {tir}, 100, vector<Weapon> {weakBow}, Race::Elf, Job::Archer);
 	enemy.EnemyIntroduction();
 
 	while (mainCharacter.GetPV() > 0 && enemy.GetPV() > 0) {
@@ -107,7 +111,7 @@ void Fight() {
 		int answer;
 		answer = inputHandler();
 		mainCharacter.Use(enemy, answer-1);
-		cout << "\nIl reste " << enemy.GetPV() << " PV a " << enemy.GetName() << endl;
+		cout << "\nIl reste " << enemy.GetPV() << " PV a " << enemy.GetFullName() << endl;
 		if (enemy.GetPV() > 0) {
 			enemy.Use(mainCharacter, 0);
 			cout << "Il te reste " << mainCharacter.GetPV() << " PV." << endl;
@@ -120,7 +124,7 @@ void Fight() {
 				return;
 			}
 			else {
-				cout << "Tu as vaincu " << enemy.GetName() << endl;
+				cout << "Tu as vaincu " << enemy.GetFullName() << endl;
 				mainCharacter.Loot(enemy);
 				return;
 			}
@@ -140,11 +144,12 @@ void PlayerConfiguration() {
 	string lastName;
 	getline(cin, lastName);
 	cout << "\nQuelle est ta phrase d'accroche ?\n";
-	string catchPhrase;
-	getline(cin, catchPhrase);
+	string description;
+	getline(cin, description);
 	cout << "\nCombien as-tu d'argent ?\n";
 	long int money;
 	money = inputHandler();
-	mainCharacter = Character(firstName, lastName, catchPhrase, money, 100, vector<Weapon> {sword, bow}, Race::Human, Job::Warrior);
+
+	mainCharacter = Character(firstName, lastName, description, 100, vector<Attack> {brulure}, money, vector<Weapon> {sword, bow}, Race::Human, Job::Warrior);
 	mainCharacter.Introduction();
 }

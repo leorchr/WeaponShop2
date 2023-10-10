@@ -8,20 +8,27 @@ using namespace std;
 class Creature
 {
 private:
-	string mName;
+	string mFirstName;
+	string mLastName;
 	string mDescription;
-	int mHP;
+	int mPV;
 	int mDefense;
 	vector<Attack> mAttacks;
 
 public:
-	Creature(string name, string description, int hp, int defense, vector<Attack> attacks);
+	Creature(string firstName, string lastName, string description, int pv, vector<Attack> attacks);
 	Creature();
 	~Creature();
 
 	void AttackCreature(Creature creature);
-	void Heal(int hp);
-	int GetHP();
+	void Heal(int pv);
+
+	string GetFirstName();
+	string GetLastName();
+	string GetFullName();
+	string GetDescription();
+	int GetPV();
+	void SetPV(int pv);
 	int GetDefense();
 
 };

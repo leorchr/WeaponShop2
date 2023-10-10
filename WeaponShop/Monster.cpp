@@ -1,7 +1,7 @@
 #include "Monster.h"
 
-Monster::Monster(string name, string description, int hp, int defense, vector<Attack> attacks, int money)
-	:Creature(name, description, hp, defense, attacks) {
+Monster::Monster(string firstName, string lastName, string description, int pv, vector<Attack> attacks, int money)
+	:Creature(firstName, lastName, description, pv, attacks) {
 	mMoneyLoot = money;
 }
 
