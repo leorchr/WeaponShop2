@@ -30,6 +30,7 @@ public:
 	int GetPV();
 	void SetPV(int pv);
 	int GetDefense();
+	vector<Attack> GetAttacks();
 
 };
 

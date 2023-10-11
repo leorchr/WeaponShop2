@@ -41,7 +41,7 @@ public:
 	vector<Weapon> GetWeapon();
 	void AddWeapon(Weapon weapon);
 	void RemoveWeapon(int position);
-	void Use(Character& enemy, int weaponIndex);
+	void Use(Character& enemy, int weaponIndex, int attackIndex);
 	void Loot(Character& enemy);
 };
 

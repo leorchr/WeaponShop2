@@ -8,7 +8,7 @@ Attack::Attack(string name, Weapon weapon, int damages, DamageType damageType) {
 	mWeapon = weapon;
 	mDamages = damages;
 	mDamageType = damageType;
-	srand((unsigned)time(NULL));
+	srand(time(NULL));
 	mAttackBonus = rand() % 5 + 1;
 }
 
@@ -25,3 +25,9 @@ Attack::~Attack(){}
 bool Attack::Resolve(Creature creature) {
 	return (rand() % 20 + 1) + mAttackBonus >= creature.GetDefense();
 }
+
+string Attack::GetName() { return mName; }
+
+int Attack::GetDamages() { return mDamages; }
+
+int Attack::GetAttackBonus() { return mAttackBonus; }

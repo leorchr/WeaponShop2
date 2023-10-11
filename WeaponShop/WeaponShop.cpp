@@ -84,7 +84,7 @@ void SellChoice() {
 }
 
 void BuyChoice() {
-	cout << "\nVoici tes armes : \n";
+	cout << "\nVoici tes attaques : \n";
 	for (int i = 0; i < mainCharacter.GetWeapon().size(); i++)
 	{
 		cout << "(" << i + 1 << ")" << mainCharacter.GetWeapon()[i].GetName() << endl;
@@ -102,6 +102,9 @@ void Fight() {
 	enemy.EnemyIntroduction();
 
 	while (mainCharacter.GetPV() > 0 && enemy.GetPV() > 0) {
+
+		//Choix arme avec l'index
+
 		cout << "\nVoici tes armes : \n";
 		for (int i = 0; i < mainCharacter.GetWeapon().size(); i++)
 		{
@@ -110,10 +113,27 @@ void Fight() {
 		cout << "\nQuelle arme veux-tu utiliser ?\n";
 		int answer;
 		answer = inputHandler();
-		mainCharacter.Use(enemy, answer-1);
+
+		//Choix attaque avec iterator
+
+		cout << "\nVoici tes attaques : \n";
+		vector<Attack>::iterator itr;
+		vector<Attack> usedAttack = mainCharacter.GetAttacks();
+		int y = 1;
+		for (itr = usedAttack.begin(); itr < usedAttack.end(); itr++)
+		{
+			cout << "(" << distance(usedAttack.begin(), itr) + 1 << ")" << itr->GetName() << endl;
+		}
+		cout << "\nQuelle attaque veux-tu utiliser ?\n";
+		int answer2;
+		answer2 = inputHandler();
+
+
+		mainCharacter.Use(enemy, answer-1, answer2-1);
+
 		cout << "\nIl reste " << enemy.GetPV() << " PV a " << enemy.GetFullName() << endl;
 		if (enemy.GetPV() > 0) {
-			enemy.Use(mainCharacter, 0);
+			enemy.Use(mainCharacter, 0, 0);
 			cout << "Il te reste " << mainCharacter.GetPV() << " PV." << endl;
 			cout << "Il reste " << mainCharacter.GetWeapon()[answer - 1].GetDurability() << " de durabilite a ton arme." << endl;
 		}

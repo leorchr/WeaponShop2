@@ -7,7 +7,7 @@ Creature::Creature(string firstName, string lastName, string description, int pv
 	mLastName = lastName;
 	mDescription = description;
 	mPV = pv;
-	srand((unsigned)time(NULL));
+	srand(time(NULL));
 	mDefense = rand() % 20 + 1;
 	mAttacks = attacks;
 }
@@ -18,7 +18,7 @@ Creature::Creature() {
 	mLastName = "Default";
 	mDescription = "No description";
 	mPV = 100;
-	srand((unsigned)time(NULL));
+	srand(time(NULL));
 	mDefense = rand() % 20 + 1;
 	mAttacks = vector<Attack>{ Attack() };
 }
@@ -43,4 +43,6 @@ int Creature::GetPV() { return mPV; }
 void Creature::SetPV(int pv) {	mPV = pv; }
 
 int Creature::GetDefense() { return mDefense; }
+
+vector<Attack> Creature::GetAttacks() { return mAttacks; }
 

@@ -30,9 +30,15 @@ void Character::Introduction() {
 	for (int i = 0; i < mWeapon.size(); i++)
 	{
 		cout << "Ton arme est : " << mWeapon[i].GetName() 
-			<< " - Degats : " << mWeapon[i].GetDamages()
 			<< " - Durabilite : " << mWeapon[i].GetDurability()
-			<< " Prix : " << mWeapon[i].GetCost() << " pieces d'or" << endl;
+			<< " - Prix : " << mWeapon[i].GetCost() << " pieces d'or" << endl;
+	}
+
+	for (int i = 0; i < GetAttacks().size(); i++)
+	{
+		cout << "Ton attaque est : " << GetAttacks()[i].GetName()
+			<< " - Degats : " << GetAttacks()[i].GetDamages()
+			<< " - Bonus Degats : " << GetAttacks()[i].GetAttackBonus() << endl;
 	}
 }
 
@@ -56,11 +62,22 @@ void Character::RemoveWeapon(int position) {
 	mWeapon.erase(mWeapon.begin() + position);
 };
 
-void Character::Use(Character& enemy, int weaponIndex) {
+void Character::Use(Character& enemy, int weaponIndex, int attackIndex) {
+
 	Weapon& weaponUsed = mWeapon[weaponIndex];
-	enemy.SetPV(enemy.GetPV() - weaponUsed.GetDamages());
-	srand((unsigned)time(NULL));
-	weaponUsed.SetDurability(weaponUsed.GetDurability() - (rand() % 5 + 1) * 0.01f);
+	Attack attackUsed = GetAttacks()[attackIndex];
+
+	cout << "\n" << GetFullName() << " utilise l'attaque " << attackUsed.GetName() << " avec l'arme " << weaponUsed.GetName();
+
+	if (attackUsed.Resolve(enemy)) {
+		enemy.SetPV(enemy.GetPV() - attackUsed.GetDamages());
+
+		srand(time(NULL));
+		weaponUsed.SetDurability(weaponUsed.GetDurability() - (rand() % 5 + 1) * 0.01f);
+	}
+	else {
+		cout << "\nL'attaque n'a pas fonctionne";
+	}
 }
 
 void Character::Loot(Character& enemy) {

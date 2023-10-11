@@ -20,5 +20,8 @@ public:
 	Attack();
 	~Attack();
 	bool Resolve(Creature creature);
+	string GetName();
+	int GetDamages();
+	int GetAttackBonus();
 };
 

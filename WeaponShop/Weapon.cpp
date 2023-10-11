@@ -29,4 +29,5 @@ int Weapon::GetCost() { return round(mCost * mDurability); }
 int Weapon::GetDamages() { return mDamages; }
 
 float Weapon::GetDurability() { return mDurability; }
+
 void Weapon::SetDurability(float durability) { mDurability = durability; }
