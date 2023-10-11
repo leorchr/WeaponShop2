@@ -6,16 +6,14 @@
 using namespace std;
 
 Character::Character(string firstName, string lastName, string description, int pv, vector<Attack> attacks, int money, vector<Weapon> weapon, Race race, Job job)
-	:Creature(firstName, lastName, description, pv, attacks) {
+	:Creature(firstName, lastName, description, pv, attacks, weapon) {
 	mMoney = money;
-	mWeapon = weapon;
 	mRace = race;
 	mJob = job;
 }
 
 Character::Character():Creature() {
 	mMoney = 0;
-	mWeapon = vector<Weapon>{ Weapon() };
 	mRace = Race::Default;
 	mJob = Job::Default;
 }
@@ -27,11 +25,11 @@ void Character::Introduction() {
 	cout << GetDescription() << endl;
 	cout << "Tu as " << mMoney << " pieces d'or.\n";
 	cout << "Tu as " << GetPV() << " pv.\n\n";
-	for (int i = 0; i < mWeapon.size(); i++)
+	for (int i = 0; i < GetWeapon().size(); i++)
 	{
-		cout << "Ton arme est : " << mWeapon[i].GetName() 
-			<< " - Durabilite : " << mWeapon[i].GetDurability()
-			<< " - Prix : " << mWeapon[i].GetCost() << " pieces d'or" << endl;
+		cout << "Ton arme est : " << GetWeapon()[i].GetName()
+			<< " - Durabilite : " << GetWeapon()[i].GetDurability()
+			<< " - Prix : " << GetWeapon()[i].GetCost() << " pieces d'or" << endl;
 	}
 
 	for (int i = 0; i < GetAttacks().size(); i++)
@@ -42,48 +40,14 @@ void Character::Introduction() {
 	}
 }
 
-void Character::EnemyIntroduction() {
-	cout << "\nVoici " << GetFirstName() << " " << GetLastName() << ".\n";
-	cout << GetDescription() << endl;
-	cout << "Il a " << GetPV() << " pv.\n";
-}
-
 int Character::GetMoney() { return mMoney; }
 
 void Character::SetMoney(int money) { mMoney = money; }
 
-vector<Weapon> Character::GetWeapon() { return mWeapon; }
-
-void Character::AddWeapon(Weapon weapon) {
-	mWeapon.push_back(weapon);
-}
-
-void Character::RemoveWeapon(int position) {
-	mWeapon.erase(mWeapon.begin() + position);
-};
-
-void Character::Use(Character& enemy, int weaponIndex, int attackIndex) {
-
-	Weapon& weaponUsed = mWeapon[weaponIndex];
-	Attack attackUsed = GetAttacks()[attackIndex];
-
-	cout << "\n" << GetFullName() << " utilise l'attaque " << attackUsed.GetName() << " avec l'arme " << weaponUsed.GetName();
-
-	if (attackUsed.Resolve(enemy)) {
-		enemy.SetPV(enemy.GetPV() - attackUsed.GetDamages());
-
-		srand(time(NULL));
-		weaponUsed.SetDurability(weaponUsed.GetDurability() - (rand() % 5 + 1) * 0.01f);
-	}
-	else {
-		cout << "\nL'attaque n'a pas fonctionne";
-	}
-}
-
-void Character::Loot(Character& enemy) {
+void Character::Loot(Monster& enemy) {
 	for (int i = 0; i < enemy.GetWeapon().size(); i++)
 	{
-		mWeapon.push_back(enemy.GetWeapon()[i]);
+		AddWeapon(enemy.GetWeapon()[i]);
 		cout << "Tu as obtenu : " << enemy.GetWeapon()[i].GetName() << endl;
 	}
 
@@ -91,4 +55,8 @@ void Character::Loot(Character& enemy) {
 	{
 		enemy.RemoveWeapon(i);
 	}
+
+	mMoney += enemy.GetMoney();	
+	cout << "Tu as obtenu : " << enemy.GetMoney() << endl;
+	cout << "Tu as desormais " << mMoney << " pieces d'or." << endl;
 }

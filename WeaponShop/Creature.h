@@ -14,14 +14,12 @@ private:
 	int mPV;
 	int mDefense;
 	vector<Attack> mAttacks;
+	vector<Weapon> mWeapon;
 
 public:
-	Creature(string firstName, string lastName, string description, int pv, vector<Attack> attacks);
+	Creature(string firstName, string lastName, string description, int pv, vector<Attack> attacks, vector<Weapon> weapon);
 	Creature();
 	~Creature();
-
-	void AttackCreature(Creature creature);
-	void Heal(int pv);
 
 	string GetFirstName();
 	string GetLastName();
@@ -31,6 +29,11 @@ public:
 	void SetPV(int pv);
 	int GetDefense();
 	vector<Attack> GetAttacks();
+
+	void Use(Creature& enemy, int weaponIndex, int attackIndex);
+	vector<Weapon> GetWeapon();
+	void AddWeapon(Weapon weapon);
+	void RemoveWeapon(int position);
 
 };
 

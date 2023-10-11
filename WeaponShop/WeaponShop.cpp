@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Attack.h"
 #include "Character.h"
+#include "Monster.h"
 #include "Merchant.h"
 #include <vector>
 #include <string>
@@ -8,7 +9,8 @@
 using namespace std;
 
 Character mainCharacter;
-Character enemy;
+Monster enemy;
+
 Weapon sword = Weapon("Sword", "Je suis une epee", WeaponType::Sword, 20, 10, 1, 1);
 Weapon weakBow = Weapon("Arc nul","Je suis un arc", WeaponType::Bow, 20, 5, 1, 1);
 
@@ -84,22 +86,22 @@ void SellChoice() {
 }
 
 void BuyChoice() {
-	cout << "\nVoici tes attaques : \n";
+	cout << "\nVoici tes armes : \n";
 	for (int i = 0; i < mainCharacter.GetWeapon().size(); i++)
 	{
 		cout << "(" << i + 1 << ")" << mainCharacter.GetWeapon()[i].GetName() << endl;
 	}
-	cout << "Quelle arme veux-tu acheter ?\n";
+	cout << "Quelle arme veux-tu vendre< ?\n";
 	int answer;
 	answer = inputHandler();
 	merchant.Buy(mainCharacter, answer);
 }
 
 void Fight() {
-	cout << "C'est l'heure du dududud udududd dueeeel ! \n";
+	cout << "\nC'est l'heure du dududud udududd dueeeel ! \n";
 
-	enemy = Character("Philipep", "Ito", "Je suis le mechant", 100, vector<Attack> {tir}, 100, vector<Weapon> {weakBow}, Race::Elf, Job::Archer);
-	enemy.EnemyIntroduction();
+	enemy = Monster("Philipep", "Ito", "C'est le mechant", 100, vector<Attack> {tir}, 100, vector<Weapon> {weakBow});
+	enemy.Introduction();
 
 	while (mainCharacter.GetPV() > 0 && enemy.GetPV() > 0) {
 
@@ -130,27 +132,26 @@ void Fight() {
 
 
 		mainCharacter.Use(enemy, answer-1, answer2-1);
+		cout << "Il reste " << enemy.GetPV() << " PV a " << enemy.GetFullName() << endl;
 
-		cout << "\nIl reste " << enemy.GetPV() << " PV a " << enemy.GetFullName() << endl;
 		if (enemy.GetPV() > 0) {
 			enemy.Use(mainCharacter, 0, 0);
 			cout << "Il te reste " << mainCharacter.GetPV() << " PV." << endl;
-			cout << "Il reste " << mainCharacter.GetWeapon()[answer - 1].GetDurability() << " de durabilite a ton arme." << endl;
 		}
-		else {
-			cout << "Le combat est termine !\n";
-			if (mainCharacter.GetPV() <= 0) {
-				cout << "Game Over !\n";
-				return;
-			}
-			else {
-				cout << "Tu as vaincu " << enemy.GetFullName() << endl;
-				mainCharacter.Loot(enemy);
-				return;
-			}
-		}
-
 	}
+
+	if (mainCharacter.GetPV() <= 0) {
+		cout << "Le combat est termine !\n";
+		cout << "Game Over !\n";
+		return;
+	}
+	else if (enemy.GetPV() <= 0){
+		cout << "Le combat est termine !\n";
+		cout << "Tu as vaincu " << enemy.GetFullName() << endl;
+		mainCharacter.Loot(enemy);
+		return;
+	}
+
 }
 
 

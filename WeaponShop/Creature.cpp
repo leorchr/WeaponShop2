@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 
-Creature::Creature(string firstName, string lastName, string description, int pv, vector<Attack> attacks) {
+Creature::Creature(string firstName, string lastName, string description, int pv, vector<Attack> attacks, vector<Weapon> weapon) {
 	mFirstName = firstName;
 	mLastName = lastName;
 	mDescription = description;
@@ -10,6 +10,7 @@ Creature::Creature(string firstName, string lastName, string description, int pv
 	srand(time(NULL));
 	mDefense = rand() % 20 + 1;
 	mAttacks = attacks;
+	mWeapon = weapon;
 }
 
 
@@ -21,14 +22,11 @@ Creature::Creature() {
 	srand(time(NULL));
 	mDefense = rand() % 20 + 1;
 	mAttacks = vector<Attack>{ Attack() };
+	mWeapon = vector<Weapon>{ Weapon() };
 }
 
 
 Creature::~Creature() {}
-
-void Creature::AttackCreature(Creature creature) {}
-
-void Creature::Heal(int pv){}
 
 string Creature::GetFirstName() { return mFirstName; }
 
@@ -46,3 +44,32 @@ int Creature::GetDefense() { return mDefense; }
 
 vector<Attack> Creature::GetAttacks() { return mAttacks; }
 
+
+void Creature::Use(Creature& enemy, int weaponIndex, int attackIndex) {
+
+	Weapon& weaponUsed = mWeapon[weaponIndex];
+	Attack attackUsed = GetAttacks()[attackIndex];
+
+	cout << "\n" << GetFullName() << " utilise l'attaque " << attackUsed.GetName() << " avec l'arme " << weaponUsed.GetName() << endl;
+
+	if (attackUsed.Resolve(enemy)) {
+		enemy.SetPV(enemy.GetPV() - attackUsed.GetDamages());
+
+		srand(time(NULL));
+		weaponUsed.SetDurability(weaponUsed.GetDurability() - (rand() % 5 + 1) * 0.01f);
+		cout << "Il reste " << weaponUsed.GetDurability() << " de durabilite a l'arme " << weaponUsed.GetName() << " de " << GetFullName() << endl;
+	}
+	else {
+		cout << "L'attaque n'a pas fonctionne\n";
+	}
+}
+
+vector<Weapon> Creature::GetWeapon() { return mWeapon; }
+
+void Creature::AddWeapon(Weapon weapon) {
+	mWeapon.push_back(weapon);
+}
+
+void Creature::RemoveWeapon(int position) {
+	mWeapon.erase(mWeapon.begin() + position);
+};

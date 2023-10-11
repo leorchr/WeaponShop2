@@ -5,6 +5,7 @@
 #include "Job.h"
 #include "Race.h"
 #include "Creature.h"
+#include "Monster.h"
 
 using namespace std;
 
@@ -12,7 +13,6 @@ class Character:public Creature
 {
 private:
 	int mMoney;
-	vector<Weapon> mWeapon;
 	Race mRace;
 	Job mJob;
 
@@ -35,13 +35,8 @@ public:
 	~Character();
 
 	void Introduction();
-	void EnemyIntroduction();
 	int GetMoney();
 	void SetMoney(int money);
-	vector<Weapon> GetWeapon();
-	void AddWeapon(Weapon weapon);
-	void RemoveWeapon(int position);
-	void Use(Character& enemy, int weaponIndex, int attackIndex);
-	void Loot(Character& enemy);
+	void Loot(Monster& enemy);
 };
 
