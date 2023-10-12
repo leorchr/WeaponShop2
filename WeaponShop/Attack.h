@@ -23,5 +23,6 @@ public:
 	string GetName();
 	int GetDamages();
 	int GetAttackBonus();
+	void RandomizeDamages();
 };
 

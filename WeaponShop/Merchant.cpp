@@ -46,7 +46,7 @@ void Merchant::Buy(Character& character, int choice) {
 		// retire l'arme de l'inventaire du joueur
 		character.RemoveWeapon(choice - 1);
 	}
-	else cout << "J'ai pas de tune frerot force pas !\n";
+	else cout << "Je n'ai pas assez d'argent pour te l'acheter !\n";
 }
 
 void Merchant::Sell(Character& character, int choice) {
@@ -70,7 +70,7 @@ void Merchant::Sell(Character& character, int choice) {
 		mWeapon.erase(mWeapon.begin() + choice - 1);
 
 	}
-	else cout << "T'as pas de tune frerot force pas !\n";
+	else cout << "Tu n'as pas assez d'argent !\n";
 	
 }
 

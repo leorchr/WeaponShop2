@@ -31,3 +31,8 @@ string Attack::GetName() { return mName; }
 int Attack::GetDamages() { return mDamages; }
 
 int Attack::GetAttackBonus() { return mAttackBonus; }
+
+void Attack::RandomizeDamages() {
+	srand(time(NULL));
+	mDamages = (rand() % 6 + 1) + (rand() % 6 + 1) + (rand() % 6 + 1) + 3;
+}
